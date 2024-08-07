@@ -2,7 +2,7 @@
       { 
          "name": "หนังสะสม🧸",
          "image": "https://nomoneynonono.github.io/ESC/img/boxesm3u.png",
-        "info": "คลังรวมเรื่อง",
+        "author": "คลังรวมเรื่อง",
          "stations": [ 
 
 
@@ -15,7 +15,7 @@
 "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.140"},
 
 {
-"name":"Puss in Boots",
+"name":"Puss in Boots1",
 "image":"https://movie2free.tv/wp-content/uploads/2024/03/Puss-in-Boots.webp",
 "url":"https://moviecdn.org/video/9486af7e0d767abe3859480dd307e1b7", 
 "referer": "https://moviecdn.org", 
@@ -23,7 +23,7 @@
 "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.140"},
 
 {
-"name":"Puss in Boots",
+"name":"Puss in Boots2",
 "image":"https://movie2free.tv/wp-content/uploads/2023/12/Puss-in-Boots-The-Last-Wish-2022-%E0%B8%9E%E0%B8%B8%E0%B8%8B-%E0%B8%AD%E0%B8%B4%E0%B8%99-%E0%B8%9A%E0%B8%B9%E0%B9%8A%E0%B8%97%E0%B8%AA%E0%B9%8C-2.jpg-344x522.webp",
 "url":"https://moviecdn.org/video/2cc18398df2e6692fffc29a610cb72e3", 
 "referer": "https://moviecdn.org", 
