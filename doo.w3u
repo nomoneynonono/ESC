@@ -6,11 +6,16 @@
             "groups": [
 
 {"name": "หนังสะสม🧸",
-"image": "https://nomoneynonono.github.io/ESC/img/movie-icon-6.png",
+"image": "https://nomoneynonono.github.io/ESC/img/boxesm3u.png",
 "url": "https://nomoneynonono.github.io/ESC/updates.w3u",
 "info": "เก่าๆ รวมเรื่อง",
 "import": false},
         
+{"name": "Anime 🎭",
+"image": "https://nomoneynonono.github.io/ESC/img/myanimem3u.png",
+"url": "https://nomoneynonono.github.io/ESC/animeesc.w3u",
+"info": "อนิเมะน่าดู",
+"import": false},
 
 ]
 }
