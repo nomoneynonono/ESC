@@ -5,16 +5,22 @@
          "author": "by ESCME🍁",
             "groups": [
 
-{"name": "หนังสะสม🧸",
-"image": "https://nomoneynonono.github.io/ESC/img/boxesm3u.png",
+{"name": "คลังรวมเรื่อง",
+"image": "https://nomoneynonono.github.io/ESC/img/moviestime.png",
 "url": "https://nomoneynonono.github.io/ESC/updates.w3u",
-"info": "คลังรวมเรื่อง",
+"info": "🧸 คลังรวมเรื่อง",
 "import": false},
         
-{"name": "Anime 🎭",
+{"name": "Anime",
 "image": "https://nomoneynonono.github.io/ESC/img/myanimem3u.png",
 "url": "https://nomoneynonono.github.io/ESC/animeesc.w3u",
-"info": "อนิเมะน่าดู",
+"info": "🎭 อนิเมะน่าดู",
+"import": false},
+
+{"name": "หนังภาคต่อ",
+"image": "https://nomoneynonono.github.io/ESC/img/boxesm3u.png",
+"url": "https://nomoneynonono.github.io/ESC/escbox.w3u",
+"info": "🍙 Collection Boxes",
 "import": false},
 
 ]
