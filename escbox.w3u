@@ -5,11 +5,19 @@
          "author": "🍙 Collection Boxes",
             "groups": [
 
-{"name": "FRINGE",
+{"name": "FRINGE (2008-2013)",
 "image": "https://static.wikia.nocookie.net/fringe/images/1/17/Fringe_season5poster_full.jpeg/revision/latest?cb=20120920220229",
 "url": "https://raw.githubusercontent.com/SASHIMON/KAFFEINE/main/Fringe5SSTH",
 "info": "เลาะปมพิศวงโลก ปี1-6",
+"author": "เลาะปมพิศวงโลก ปี1-6",
 "import": false},
+
+{"name": "[KR] Doctor Prisoner",
+			"image": "https://dunnung.com/wp-content/uploads/2020/06/751.jpg",
+			"url": "https://raw.githubusercontent.com/SASHIMON/KAFFEINE/main/DoctorPrisonerKR",
+"author": "คุก คลั่ง แค้น (2019)",
+"info": "คุก คลั่ง แค้น (2019)",
+			"import": false},
 
 ]
 }
