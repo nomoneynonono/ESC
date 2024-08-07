@@ -11,8 +11,30 @@
 "image":"https://bbk100.xyz/media/cache/movie_sm/202404/movie/af102a5b1eac6a6c06f064d5fc98e754.jpg",
 "url":"https://streamhls.com/play/6a32ebf2-ead5-598b-8ea6-0439d677c194", 
 "referer": "https://streamhls.com/", 
-"info": "Y 2024",
+"info": "(2024)",
 "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.140"},
+
+
+
+      { 
+         "name": " PUSS IN BOOTS",
+         "image": "https://nomoneynonono.github.io/ESC/img/movie-icon-6.png",
+         "author": "by ESCME🍁",
+         "stations": [ 
+
+
+{
+"name":"ภาค1",
+"image":"https://movie2free.tv/wp-content/uploads/2024/03/Puss-in-Boots.webp",
+"url":"https://moviecdn.org/video/9486af7e0d767abe3859480dd307e1b7", 
+"referer": "https://moviecdn.org", 
+"info": "ภาค2 (2011)",
+"userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.140"},
+
+]
+},
+
+
 
 ]
 }
