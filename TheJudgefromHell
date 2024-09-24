@@ -1,0 +1,22 @@
+{
+	"name": "The Judge from Hell",
+	"author": "",
+	"image": "https://1.bp.blogspot.com/-8myUkGj19tE/X3x69p0u5fI/AAAAAAAAATk/LOZ1dpm5fv8MMsAfZbM1uBExINDRgMX1wCNcBGAsYHQ/s200/ee.png",
+	"url": "https://raw.githubusercontent.com/SASHIMON/KAFFEINE/main",
+	"stations": [
+	
+	{
+             "name": "EP 1",   
+	     "url": "https://kcp.miruplayer.com/embed/wN6WGVE3RRC2IZcYPlJX",
+	     "playInNatPlayer": "true"
+           },
+	   
+	{
+             "name": "EP 2",  
+	     "url": "https://kcp.miruplayer.com/embed/TEnU3y5P1OpztALffNtR",
+	     "playInNatPlayer": "true"
+           },
+	   
+	
+    ]
+}
