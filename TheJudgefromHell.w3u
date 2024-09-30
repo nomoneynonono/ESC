@@ -17,6 +17,16 @@
 	     "playInNatPlayer": "true"
            },
 	   
-	
+	{
+             "name": "EP 3",  
+	     "url": "https://anccplayer.cyou/source/playerproxy2.php?link=ZIGEeWibyZdmwK94slvEkL2ie4FwV37gp56aqHRmqXvq",
+	     "playInNatPlayer": "true"
+           },
+
+{
+             "name": "EP 4",  
+	     "url": "https://anccplayer.cyou/source/playerproxy2.php?link=ZIiHk2XRwXqBq6ZRn4XCh7OihaKzmGiwqnqO2qxRk5bE",
+	     "playInNatPlayer": "true"
+           },
     ]
 }
