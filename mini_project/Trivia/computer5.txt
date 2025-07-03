@@ -1,0 +1,30 @@
+OSI Model มีกี่ชั้น? 7 ชั้น
+IPv6 Address มีความยาวกี่บิต? 128 บิต
+Big Endian และ Little Endian เกี่ยวข้องกับอะไร? การเรียงลำดับไบต์
+Turing Test ใช้ทดสอบอะไร? ปัญญาประดิษฐ์
+Moore's Law กล่าวถึงอะไร? จำนวนทรานซิสเตอร์เพิ่มขึ้นเป็น 2 เท่าทุก 2 ปี
+Quantum Computing ใช้หลักการอะไร? กลศาสตร์ควอนตัม
+Blockchain ใช้อัลกอริทึมอะไรในการเข้ารหัส? Hash Function
+Machine Learning แบ่งออกเป็นกี่ประเภทหลัก? 3 ประเภท
+Neural Network ได้แรงบันดาลใจมาจากอะไร? สมองมนุษย์
+Big Data มีลักษณะสำคัญกี่ V? 3 V
+Cloud Computing มีรูปแบบการให้บริการกี่แบบหลัก? 3 แบบ
+IoT ย่อมาจากอะไร? Internet of Things
+Edge Computing คืออะไร? การประมวลผลใกล้แหล่งข้อมูล
+Microservices Architecture คืออะไร? สถาปัตยกรรมแบบแยกส่วนย่อย
+DevOps รวมระหว่างอะไรบ้าง? Development และ Operations
+Agile Methodology เน้นอะไรเป็นหลัก? การตอบสนองต่อการเปลี่ยนแปลง
+Scrum มีบทบาทหลักกี่บทบาท? 3 บทบาท
+Git เป็นระบบอะไร? Version Control System
+Docker คืออะไร? Container Platform
+Kubernetes ใช้ทำอะไร? จัดการ Container
+REST API ใช้ HTTP Method อะไรบ้าง? GET, POST, PUT, DELETE
+GraphQL คืออะไร? Query Language สำหรับ API
+WebSocket ใช้ทำอะไร? การสื่อสารแบบ Real-time
+Progressive Web App (PWA) คืออะไร? Web App ที่ทำงานเหมือน Native App
+Single Page Application (SPA) คืออะไร? Web App ที่โหลดหน้าเดียว
+Server-Side Rendering (SSR) คืออะไร? การ Render หน้าเว็บที่ Server
+Content Delivery Network (CDN) ใช้ทำอะไร? กระจายเนื้อหาให้ใกล้ผู้ใช้
+Load Balancer ใช้ทำอะไร? กระจายโหลดไปยัง Server หลายตัว
+Horizontal Scaling คืออะไร? เพิ่มจำนวน Server
+Vertical Scaling คืออะไร? เพิ่มประสิทธิภาพ Server
