@@ -1,0 +1,30 @@
+TCP/IP ย่อมาจากอะไร? Transmission Control Protocol/Internet Protocol
+SQL ย่อมาจากอะไร? Structured Query Language
+API ย่อมาจากอะไร? Application Programming Interface
+JSON ย่อมาจากอะไร? JavaScript Object Notation
+XML ย่อมาจากอะไร? eXtensible Markup Language
+CSS ย่อมาจากอะไร? Cascading Style Sheets
+HTML ย่อมาจากอะไร? HyperText Markup Language
+PHP ย่อมาจากอะไร? PHP: Hypertext Preprocessor
+AJAX ย่อมาจากอะไร? Asynchronous JavaScript and XML
+CRUD ย่อมาจากอะไr? Create, Read, Update, Delete
+MVC ย่อมาจากอะไร? Model-View-Controller
+OOP ย่อมาจากอะไร? Object-Oriented Programming
+IDE ย่อมาจากอะไร? Integrated Development Environment
+SDK ย่อมาจากอะไร? Software Development Kit
+JVM ย่อมาจากอะไร? Java Virtual Machine
+CLI ย่อมาจากอะไร? Command Line Interface
+GUI ย่อมาจากอะไร? Graphical User Interface
+SSH ย่อมาจากอะไร? Secure Shell
+SSL ย่อมาจากอะไร? Secure Sockets Layer
+TLS ย่อมาจากอะไร? Transport Layer Security
+SMTP ย่อมาจากอะไร? Simple Mail Transfer Protocol
+POP3 ย่อมาจากอะไร? Post Office Protocol version 3
+IMAP ย่อมาจากอะไร? Internet Message Access Protocol
+DHCP ย่อมาจากอะไร? Dynamic Host Configuration Protocol
+NAT ย่อมาจากอะไร? Network Address Translation
+RAID ย่อมาจากอะไร? Redundant Array of Independent Disks
+UPS ย่อมาจากอะไร? Uninterruptible Power Supply
+PSU ย่อมาจากอะไร? Power Supply Unit
+NIC ย่อมาจากอะไร? Network Interface Card
+MAC Address ย่อมาจากอะไร? Media Access Control Address
