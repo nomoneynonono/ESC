@@ -1,0 +1,30 @@
+GPU ย่อมาจากอะไร? Graphics Processing Unit
+SSD ย่อมาจากอะไร? Solid State Drive
+HDD ย่อมาจากอะไร? Hard Disk Drive
+BIOS ย่อมาจากอะไร? Basic Input Output System
+IP Address คืออะไร? ที่อยู่ของอุปกรณ์ในเครือข่าย
+DNS ย่อมาจากอะไร? Domain Name System
+HTTP ย่อมาจากอะไร? HyperText Transfer Protocol
+HTTPS ย่อมาจากอะไร? HyperText Transfer Protocol Secure
+FTP ย่อมาจากอะไร? File Transfer Protocol
+LAN ย่อมาจากอะไร? Local Area Network
+WAN ย่อมาจากอะไร? Wide Area Network
+VPN ย่อมาจากอะไร? Virtual Private Network
+ISP ย่อมาจากอะไร? Internet Service Provider
+Firewall คืออะไร? ระบบป้องกันเครือข่าย
+Malware คืออะไร? โปรแกรมที่เป็นอันตราย
+Spyware คืออะไร? โปรแกรมสอดแนม
+Adware คืออะไร? โปรแกรมแสดงโฆษณา
+Ransomware คืออะไร? โปรแกรมเรียกค่าไถ่
+Phishing คืออะไร? การหลอกขโมยข้อมูล
+Cloud Computing คืออะไร? การประมวลผลบนคลาวด์
+Backup คืออะไร? การสำรองข้อมูล
+Restore คืออะไร? การกู้คืนข้อมูล
+Defragmentation คืออะไร? การจัดเรียงข้อมูลในฮาร์ดดิสก์
+Registry คืออะไร? ฐานข้อมูลการตั้งค่าของ Windows
+Driver คืออะไร? โปรแกรมควบคุมอุปกรณ์
+Codec คืออะไร? โปรแกรมเข้ารหัส/ถอดรหัสไฟล์
+Plugin คืออะไร? ส่วนเสริมของโปรแกรม
+Cache คืออะไร? หน่วยความจำชั่วคราว
+Cookie คืออะไร? ไฟล์เก็บข้อมูลจากเว็บไซต์
+Spam คืออะไร? อีเมลขยะ
