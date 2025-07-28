@@ -59,13 +59,8 @@
                 <div class="text-sm text-gray-600 mb-4">
                     📊 วิเคราะห์จากข้อมูล <span id="dataCount" class="font-semibold text-purple-600">260</span> งวด
                 </div>
-                <div class="flex gap-4">
-                    <button id="analyzeBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all">
-                        🔍 วิเคราะห์ข้อมูล
-                    </button>
-                    <button id="predictBtn" class="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-700 hover:to-teal-700 transition-all">
-                        🎲 ทำนายงวดถัดไป
-                    </button>
+                <div class="text-sm text-gray-600">
+                    🔄 ระบบวิเคราะห์ข้อมูลอัตโนมัติเมื่อเปิดเว็บ
                 </div>
             </div>
         </div>
@@ -74,6 +69,27 @@
         <div class="tab-content">
             <!-- Overview Tab -->
             <div id="overview-tab" class="tab-panel active">
+                <!-- Analysis Methods Explanation -->
+                <div class="bg-white rounded-xl card-shadow p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">🧠 วิธีการวิเคราะห์</h2>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+                        <p class="text-sm text-blue-700 mb-2">ระบบวิเคราะห์ข้อมูล <span id="overviewDataCount" class="font-semibold">260</span> งวด ด้วย 5 กลยุทธ์:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-blue-600">
+                            <div class="space-y-1">
+                                <div>• <strong>เลขร้อนสุด:</strong> เลือกเลขที่ออกบ่อยที่สุดในแต่ละหลัก</div>
+                                <div>• <strong>เลขสมดุล:</strong> เลือกเลขที่มีความถี่ปานกลาง</div>
+                                <div>• <strong>เลขคู่-คี่:</strong> สร้างสมดุลระหว่างเลขคู่และคี่</div>
+                            </div>
+                            <div class="space-y-1">
+                                <div>• <strong>เลขผลรวม:</strong> คำนวณให้ผลรวมใกล้เคียงค่าเฉลี่ย (27)</div>
+                                <div>• <strong>เลขรูปแบบ:</strong> วิเคราะห์จากรูปแบบที่เกิดขึ้นบ่อย</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-blue-500 mt-3">💡 เลขจะคงที่ตลอดวัน (อัปเดตทุกวัน) เพื่อความสม่ำเสมอ</p>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div class="bg-white rounded-xl card-shadow p-6 text-center">
                         <div class="text-3xl mb-2">🔥</div>
@@ -173,15 +189,9 @@
             <div id="charts-tab" class="tab-panel hidden">
                 <div class="bg-white rounded-xl card-shadow p-6">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">📈 กราฟวิเคราะห์</h2>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="text-lg font-semibold mb-4">ความถี่การออกของแต่ละเลข</h3>
-                            <canvas id="frequencyChart" width="400" height="300"></canvas>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold mb-4">แนวโน้มการออกรางวัล</h3>
-                            <canvas id="trendChart" width="400" height="300"></canvas>
-                        </div>
+                    <div class="max-w-2xl mx-auto">
+                        <h3 class="text-lg font-semibold mb-4 text-center">ความถี่การออกของแต่ละเลข</h3>
+                        <canvas id="frequencyChart" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -452,23 +462,6 @@
             const container = document.getElementById('predictions');
             container.innerHTML = '';
             
-            // Add explanation header
-            const explanationDiv = document.createElement('div');
-            explanationDiv.className = 'bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 rounded-r-lg';
-            explanationDiv.innerHTML = `
-                <h4 class="font-semibold text-blue-800 mb-2">🧠 วิธีการวิเคราะห์</h4>
-                <p class="text-sm text-blue-700 mb-2">ระบบวิเคราะห์ข้อมูล ${fullData.length} งวด ด้วย 5 กลยุทธ์:</p>
-                <ul class="text-xs text-blue-600 space-y-1">
-                    <li>• <strong>เลขร้อนสุด:</strong> เลือกเลขที่ออกบ่อยที่สุดในแต่ละหลัก</li>
-                    <li>• <strong>เลขสมดุล:</strong> เลือกเลขที่มีความถี่ปานกลาง (ไม่ร้อนหรือเย็นเกินไป)</li>
-                    <li>• <strong>เลขคู่-คี่:</strong> สร้างสมดุลระหว่างเลขคู่และคี่ในแต่ละตำแหน่ง</li>
-                    <li>• <strong>เลขผลรวม:</strong> คำนวณให้ผลรวมใกล้เคียงค่าเฉลี่ย (27)</li>
-                    <li>• <strong>เลขรูปแบบ:</strong> วิเคราะห์จากรูปแบบที่เกิดขึ้นบ่อยในอดีต</li>
-                </ul>
-                <p class="text-xs text-blue-500 mt-2">💡 เลขจะคงที่ตลอดวัน (อัปเดตทุกวัน) เพื่อความสม่ำเสมอ</p>
-            `;
-            container.appendChild(explanationDiv);
-            
             predictions.forEach((pred, index) => {
                 const div = document.createElement('div');
                 const colors = [
@@ -518,7 +511,10 @@
 
         // Create frequency chart
         function createFrequencyChart() {
-            const ctx = document.getElementById('frequencyChart').getContext('2d');
+            const canvas = document.getElementById('frequencyChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
             
             // Clear any existing chart
             if (window.frequencyChart) {
@@ -533,64 +529,71 @@
                 }
             });
             
+            // Create gradient colors
+            const colors = [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)', 
+                'rgba(255, 205, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(199, 199, 199, 0.8)',
+                'rgba(83, 102, 255, 0.8)',
+                'rgba(255, 99, 255, 0.8)',
+                'rgba(99, 255, 132, 0.8)'
+            ];
+            
             window.frequencyChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
                     datasets: [{
-                        label: 'ความถี่การออก',
+                        label: 'ความถี่การออก (ครั้ง)',
                         data: digitCounts,
-                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
-                        borderColor: 'rgba(102, 126, 234, 1)',
-                        borderWidth: 1
+                        backgroundColor: colors,
+                        borderColor: colors.map(color => color.replace('0.8', '1')),
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const percentage = ((context.parsed.y / fullData.length / 6) * 100).toFixed(1);
+                                    return `เลข ${context.label}: ${context.parsed.y} ครั้ง (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'จำนวนครั้งที่ออก'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'เลข'
+                            }
                         }
                     }
                 }
             });
         }
 
-        // Create trend chart
-        function createTrendChart() {
-            const ctx = document.getElementById('trendChart').getContext('2d');
-            
-            // Clear any existing chart
-            if (window.trendChart) {
-                window.trendChart.destroy();
-            }
-            
-            const last20 = fullData.slice(0, 20).reverse();
-            
-            window.trendChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: last20.map(d => d.date),
-                    datasets: [{
-                        label: 'ผลรวมเลข',
-                        data: last20.map(d => d.number.split('').reduce((sum, digit) => sum + parseInt(digit), 0)),
-                        borderColor: 'rgba(34, 197, 94, 1)',
-                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
+
 
         // Analyze 3-digit and 2-digit patterns
         function analyze3DigitPatterns() {
@@ -762,7 +765,6 @@
                 case 'charts':
                     setTimeout(() => {
                         createFrequencyChart();
-                        createTrendChart();
                     }, 100);
                     break;
                 case 'history':
@@ -779,42 +781,16 @@
             });
         });
 
-        // Event listeners
-        document.getElementById('analyzeBtn').addEventListener('click', function() {
-            this.innerHTML = '🔄 กำลังวิเคราะห์...';
-            this.disabled = true;
-            
-            setTimeout(() => {
-                createPositionGrids();
-                updateStatistics();
-                display3DigitAnalysis();
-                createFrequencyChart();
-                createTrendChart();
-                displayRecentResults();
-                
-                this.innerHTML = '✅ วิเคราะห์เสร็จสิ้น';
-                setTimeout(() => {
-                    this.innerHTML = '🔍 วิเคราะห์ข้อมูล';
-                    this.disabled = false;
-                }, 2000);
-            }, 1500);
-        });
+        // Auto-analysis function
+        function runAutoAnalysis() {
+            createPositionGrids();
+            updateStatistics();
+            display3DigitAnalysis();
+            createFrequencyChart();
+            displayRecentResults();
+        }
 
-        document.getElementById('predictBtn').addEventListener('click', function() {
-            this.innerHTML = '🔮 กำลังทำนาย...';
-            this.disabled = true;
-            
-            setTimeout(() => {
-                displayPredictions();
-                displayHotByPosition();
-                
-                this.innerHTML = '✨ ทำนายเสร็จสิ้น';
-                setTimeout(() => {
-                    this.innerHTML = '🎲 ทำนายงวดถัดไป';
-                    this.disabled = false;
-                }, 2000);
-            }, 2000);
-        });
+
 
         // Initialize
         document.addEventListener('DOMContentLoaded', async function() {
@@ -826,20 +802,19 @@
             
             if (dataLoaded) {
                 document.getElementById('dataCount').innerHTML = `<span class="text-green-600">${realLotteryData.length}</span>`;
+                document.getElementById('overviewDataCount').innerHTML = `<span class="text-green-600">${realLotteryData.length}</span>`;
                 console.log('📊 ข้อมูลพร้อมใช้งาน:', realLotteryData.length, 'งวด');
             } else {
                 document.getElementById('dataCount').innerHTML = `<span class="text-red-600">${realLotteryData.length} (ตัวอย่าง)</span>`;
+                document.getElementById('overviewDataCount').innerHTML = `<span class="text-red-600">${realLotteryData.length}</span>`;
                 console.log('⚠️ ใช้ข้อมูลตัวอย่าง');
             }
             
-            // Initialize overview tab only
-            updateStatistics();
+            // Run automatic analysis immediately after data is loaded
+            runAutoAnalysis();
             
-            // Auto-analyze after 1 second
-            setTimeout(() => {
-                document.getElementById('analyzeBtn').click();
-            }, 1000);
+            console.log('✅ วิเคราะห์อัตโนมัติเสร็จสิ้น');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9661d9c3c6fc7325',t:'MTc1MzY3OTIyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9661ed32544a7331',t:'MTc1MzY4MDAxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
