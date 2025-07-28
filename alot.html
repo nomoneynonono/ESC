@@ -191,6 +191,18 @@
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">📈 กราฟวิเคราะห์</h2>
                     <div class="max-w-4xl mx-auto">
                         <h3 class="text-lg font-semibold mb-4 text-center">ความถี่การออกของแต่ละเลข</h3>
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4">
+                            <p class="text-sm text-blue-700">
+                                📊 <strong>ข้อมูลที่ใช้:</strong> วิเคราะห์จากข้อมูลจริงจาก glo.or.th ที่จัดเรียงแล้ว 
+                                (ไม่ใช่ข้อมูลจำลอง) เพื่อความแม่นยำ 100%
+                            </p>
+                            <p class="text-xs text-blue-600 mt-1">
+                                💡 กราฟจะแสดงผลเหมือนเดิมทุกครั้งที่เปิดเว็บ จนกว่าจะมีการอัปเดตข้อมูลใหม่
+                            </p>
+                            <p class="text-xs text-green-600 mt-1">
+                                ✅ ข้อมูลมาจาก: https://nomoneynonono.github.io/ESC/alot.json
+                            </p>
+                        </div>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <canvas id="frequencyChart" style="height: 400px; width: 100%;"></canvas>
                         </div>
@@ -270,65 +282,27 @@
             }
         }
 
-        // Generate extended historical data (simulating 10+ years)
-        function generateExtendedData() {
-            const data = [...realLotteryData];
-            
-            // Generate data for years 2019-2014 (more realistic patterns)
-            const patterns = [
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 0], // ascending
-                [0, 9, 8, 7, 6, 5, 4, 3, 2, 1], // descending
-                [2, 4, 6, 8, 0, 1, 3, 5, 7, 9], // even-odd mix
-                [1, 3, 5, 7, 9, 0, 2, 4, 6, 8], // odd-even mix
-                [5, 2, 8, 1, 9, 3, 6, 0, 4, 7], // random but weighted
-            ];
-            
-            for (let i = 51; i <= 260; i++) { // 10 years = ~260 draws
-                let number = '';
-                const pattern = patterns[Math.floor(Math.random() * patterns.length)];
-                
-                for (let pos = 0; pos < 6; pos++) {
-                    // Use weighted selection based on position and historical frequency
-                    const weights = [0.08, 0.09, 0.11, 0.12, 0.10, 0.09, 0.11, 0.12, 0.09, 0.09]; // realistic frequency
-                    let random = Math.random();
-                    let digit = 0;
-                    let cumulative = 0;
-                    
-                    for (let d = 0; d < 10; d++) {
-                        cumulative += weights[d];
-                        if (random <= cumulative) {
-                            digit = d;
-                            break;
-                        }
-                    }
-                    
-                    number += digit;
-                }
-                
-                const date = new Date(2024, 0, 1);
-                date.setDate(date.getDate() - (i * 15));
-                data.push({
-                    date: date.toLocaleDateString('th-TH'),
-                    number: number,
-                    draw: i
-                });
-            }
-            
-            return data.sort((a, b) => b.draw - a.draw); // Most recent first
-        }
-
-        const fullData = generateExtendedData();
-
-        // Analyze frequency by position
+        // Analyze frequency by position using real lottery data
         function analyzeByPosition() {
             const positionStats = Array.from({length: 6}, () => Array(10).fill(0));
             
-            fullData.forEach(entry => {
-                for (let i = 0; i < 6; i++) {
-                    const digit = parseInt(entry.number[i]);
-                    positionStats[i][digit]++;
+            console.log('🔍 วิเคราะห์หลัก จากข้อมูล', realLotteryData.length, 'งวด');
+            
+            realLotteryData.forEach((entry, index) => {
+                if (entry.number && entry.number.length === 6) {
+                    for (let i = 0; i < 6; i++) {
+                        const digit = parseInt(entry.number[i]);
+                        if (!isNaN(digit) && digit >= 0 && digit <= 9) {
+                            positionStats[i][digit]++;
+                        }
+                    }
+                } else {
+                    console.warn('ข้อมูลไม่ถูกต้อง:', entry);
                 }
             });
+            
+            // Log results for debugging
+            console.log('📊 สถิติแต่ละหลัก:', positionStats);
             
             return positionStats;
         }
@@ -346,7 +320,7 @@
                 
                 for (let digit = 0; digit <= 9; digit++) {
                     const count = stats[pos][digit];
-                    const percentage = ((count / fullData.length) * 100).toFixed(1);
+                    const percentage = ((count / realLotteryData.length) * 100).toFixed(1);
                     
                     const cell = document.createElement('div');
                     cell.className = `number-cell p-3 rounded-lg text-center cursor-pointer text-white font-semibold`;
@@ -375,6 +349,8 @@
             const stats = analyzeByPosition();
             const predictions = [];
             
+            console.log('🔮 สร้างการทำนายจากสถิติ:', stats);
+            
             // Create seed for consistent results (based on current date)
             const today = new Date();
             const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
@@ -400,7 +376,7 @@
                 
                 for (let pos = 0; pos < 6; pos++) {
                     const sortedDigits = stats[pos]
-                        .map((count, digit) => ({ digit, count, percentage: (count / fullData.length) * 100 }))
+                        .map((count, digit) => ({ digit, count, percentage: (count / realLotteryData.length) * 100 }))
                         .sort((a, b) => b.count - a.count);
                     
                     let selectedDigit;
@@ -528,8 +504,8 @@
             
             const digitCounts = Array(10).fill(0);
             
-            // Count digits from all lottery numbers
-            fullData.forEach(entry => {
+            // Count digits from REAL lottery data only (not generated data)
+            realLotteryData.forEach(entry => {
                 if (entry.number && entry.number.length === 6) {
                     for (let digit of entry.number) {
                         const digitValue = parseInt(digit);
@@ -540,7 +516,7 @@
                 }
             });
             
-            console.log('Digit counts:', digitCounts);
+            console.log('Real data digit counts:', digitCounts);
             
             // Create gradient colors
             const colors = [
@@ -582,7 +558,7 @@
                             tooltip: {
                                 callbacks: {
                                     label: function(context) {
-                                        const totalNumbers = fullData.length;
+                                        const totalNumbers = realLotteryData.length;
                                         const percentage = ((context.parsed.y / (totalNumbers * 6)) * 100).toFixed(1);
                                         return `เลข ${context.label}: ${context.parsed.y} ครั้ง (${percentage}%)`;
                                     }
@@ -726,11 +702,23 @@
             });
         }
 
-        // Update statistics
+        // Update statistics using real lottery data
         function updateStatistics() {
-            const allDigits = fullData.flatMap(entry => entry.number.split('').map(d => parseInt(d)));
+            const allDigits = realLotteryData.flatMap(entry => {
+                if (entry.number && entry.number.length === 6) {
+                    return entry.number.split('').map(d => parseInt(d));
+                }
+                return [];
+            });
+            
             const digitCounts = Array(10).fill(0);
-            allDigits.forEach(digit => digitCounts[digit]++);
+            allDigits.forEach(digit => {
+                if (!isNaN(digit) && digit >= 0 && digit <= 9) {
+                    digitCounts[digit]++;
+                }
+            });
+            
+            console.log('📊 สถิติเลขทั้งหมด:', digitCounts);
             
             const maxCount = Math.max(...digitCounts);
             const minCount = Math.min(...digitCounts);
@@ -804,6 +792,15 @@
 
         // Auto-analysis function
         function runAutoAnalysis() {
+            console.log('🚀 เริ่มวิเคราะห์อัตโนมัติ...');
+            console.log('📊 ข้อมูลที่ใช้:', realLotteryData.length, 'งวด');
+            
+            // Check if data is loaded
+            if (realLotteryData.length === 0) {
+                console.error('❌ ไม่มีข้อมูลสำหรับวิเคราะห์');
+                return;
+            }
+            
             createPositionGrids();
             updateStatistics();
             display3DigitAnalysis();
@@ -814,6 +811,8 @@
                 console.log('Auto-creating chart...');
                 createFrequencyChart();
             }, 500);
+            
+            console.log('✅ วิเคราะห์อัตโนมัติเสร็จสิ้น');
         }
 
 
@@ -842,5 +841,5 @@
             console.log('✅ วิเคราะห์อัตโนมัติเสร็จสิ้น');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9661f42bf3f67331',t:'MTc1MzY4MDMwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96621ba503de7331',t:'MTc1MzY4MTkyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
