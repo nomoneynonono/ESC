@@ -189,9 +189,11 @@
             <div id="charts-tab" class="tab-panel hidden">
                 <div class="bg-white rounded-xl card-shadow p-6">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">📈 กราฟวิเคราะห์</h2>
-                    <div class="max-w-2xl mx-auto">
+                    <div class="max-w-4xl mx-auto">
                         <h3 class="text-lg font-semibold mb-4 text-center">ความถี่การออกของแต่ละเลข</h3>
-                        <canvas id="frequencyChart" width="600" height="400"></canvas>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <canvas id="frequencyChart" style="height: 400px; width: 100%;"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -512,22 +514,33 @@
         // Create frequency chart
         function createFrequencyChart() {
             const canvas = document.getElementById('frequencyChart');
-            if (!canvas) return;
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
             
             const ctx = canvas.getContext('2d');
             
             // Clear any existing chart
-            if (window.frequencyChart) {
+            if (window.frequencyChart && typeof window.frequencyChart.destroy === 'function') {
                 window.frequencyChart.destroy();
             }
             
             const digitCounts = Array(10).fill(0);
             
+            // Count digits from all lottery numbers
             fullData.forEach(entry => {
-                for (let digit of entry.number) {
-                    digitCounts[parseInt(digit)]++;
+                if (entry.number && entry.number.length === 6) {
+                    for (let digit of entry.number) {
+                        const digitValue = parseInt(digit);
+                        if (!isNaN(digitValue) && digitValue >= 0 && digitValue <= 9) {
+                            digitCounts[digitValue]++;
+                        }
+                    }
                 }
             });
+            
+            console.log('Digit counts:', digitCounts);
             
             // Create gradient colors
             const colors = [
@@ -543,54 +556,60 @@
                 'rgba(99, 255, 132, 0.8)'
             ];
             
-            window.frequencyChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                    datasets: [{
-                        label: 'ความถี่การออก (ครั้ง)',
-                        data: digitCounts,
-                        backgroundColor: colors,
-                        borderColor: colors.map(color => color.replace('0.8', '1')),
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
+            try {
+                window.frequencyChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                        datasets: [{
+                            label: 'ความถี่การออก (ครั้ง)',
+                            data: digitCounts,
+                            backgroundColor: colors,
+                            borderColor: colors.map(color => color.replace('0.8', '1')),
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const totalNumbers = fullData.length;
+                                        const percentage = ((context.parsed.y / (totalNumbers * 6)) * 100).toFixed(1);
+                                        return `เลข ${context.label}: ${context.parsed.y} ครั้ง (${percentage}%)`;
+                                    }
+                                }
+                            }
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const percentage = ((context.parsed.y / fullData.length / 6) * 100).toFixed(1);
-                                    return `เลข ${context.label}: ${context.parsed.y} ครั้ง (${percentage}%)`;
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'จำนวนครั้งที่ออก'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'เลข'
                                 }
                             }
                         }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'จำนวนครั้งที่ออก'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'เลข'
-                            }
-                        }
                     }
-                }
-            });
+                });
+                console.log('Chart created successfully');
+            } catch (error) {
+                console.error('Error creating chart:', error);
+            }
         }
 
 
@@ -763,9 +782,11 @@
                     displayHotByPosition();
                     break;
                 case 'charts':
+                    // Force chart creation with longer delay to ensure canvas is ready
                     setTimeout(() => {
+                        console.log('Creating chart...');
                         createFrequencyChart();
-                    }, 100);
+                    }, 300);
                     break;
                 case 'history':
                     displayRecentResults();
@@ -786,8 +807,13 @@
             createPositionGrids();
             updateStatistics();
             display3DigitAnalysis();
-            createFrequencyChart();
             displayRecentResults();
+            
+            // Create chart with delay to ensure DOM is ready
+            setTimeout(() => {
+                console.log('Auto-creating chart...');
+                createFrequencyChart();
+            }, 500);
         }
 
 
@@ -816,5 +842,5 @@
             console.log('✅ วิเคราะห์อัตโนมัติเสร็จสิ้น');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9661ed32544a7331',t:'MTc1MzY4MDAxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9661f42bf3f67331',t:'MTc1MzY4MDMwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
