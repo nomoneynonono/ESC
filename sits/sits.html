@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริการซ่อมคอมพิวเตอร์ - แก้ปัญหาคอมพิวเตอร์ทุกอาการ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'light-green': '#f0f9f0',
+                        'soft-green': '#e8f5e8',
+                        'medium-green': '#4ade80',
+                        'dark-green': '#16a34a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 100%);
+        }
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-medium-green rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">บริการซ่อมคอมพิวเตอร์</h1>
+                        <p class="text-sm text-gray-600">แก้ปัญหาคอมพิวเตอร์ทุกอาการ</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-8 leading-relaxed">
+                    <span class="block mb-4">เคยไหม ที่คอมพิวเตอร์</span>
+                    <span class="text-dark-green block mb-4">ไม่รู้ว่าเป็นอะไร !?</span>
+                    <span class="text-medium-green block">อยู่ดีๆก็....... 🤔</span>
+                </h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    ไม่ต้องกังวล! ผมมีประสบการณ์พร้อมแก้ปัญหาคอมพิวเตอร์ทุกอาการ<br>
+                    ตรวจเช็คฟรี ซ่อมไม่ได้ไม่คิดเงิน
+                </p>
+                <div class="pulse-animation inline-block">
+                    <button class="bg-dark-green hover:bg-green-700 text-white text-xl px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-105">
+                        🔧 ตรวจเช็คฟรีเลย!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">บริการของทางร้าน</h3>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Free Check Service -->
+                <div class="service-card bg-soft-green p-8 rounded-2xl border-2 border-medium-green">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-medium-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🔍</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">ตรวจเช็คฟรี</h4>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            ตรวจเช็คอาการฟรี
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            เสียซ่อมไม่ได้ ไม่คิดค่าบริการ
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            ค่าเปิดฝาเคส เริ่มต้นที่ 50 บาท
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Repair Service -->
+                <div class="service-card bg-soft-green p-8 rounded-2xl">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-medium-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🔧</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">บริการซ่อม</h4>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            ซอฟท์แวร์ & ฮาร์ดแวร์
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            ดูแลทางไกลได้
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            ติดตั้งโปรแกรม เริ่มต้น 150 บาท
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-medium-green mr-2">✓</span>
+                            รับจัดหาคอมพิวเตอร์ตามงบ
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Other Services -->
+                <div class="service-card bg-soft-green p-8 rounded-2xl">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-medium-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">💾</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">บริการอื่นๆ</h4>
+                    </div>
+                    <ul class="space-y-3 text-gray-700 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-medium-green mr-2 mt-1">✓</span>
+                            <div>
+                                <strong>IT Support</strong><br>
+                                สำรองข้อมูล คัดลอก/เคลื่อนย้าย ไปยัง External hard drive, USB, DVD ฯลฯ<br>
+                                <span class="text-dark-green font-semibold">เริ่มต้นที่ 100 บาท</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-medium-green mr-2 mt-1">✓</span>
+                            <div>
+                                <strong>กู้ข้อมูล Hard Drive</strong><br>
+                                <span class="text-dark-green font-semibold">เริ่มต้นที่ 350 บาท</span><br>
+                                <span class="text-gray-600">(ขึ้นอยู่กับความยากง่าย)</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-medium-green mr-2 mt-1">✓</span>
+                            <div>
+                                <strong>รับปรึกษา และแก้ปัญหา</strong><br>
+                                การใช้งาน จุกจิก กวนใจต่างๆ<br>
+                                <span class="text-dark-green font-semibold">เริ่มต้น กรณีละ 50 บาท</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-16 gradient-bg">
+        <div class="container mx-auto px-6">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">ราคาบริการ</h3>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h4 class="text-2xl font-bold text-dark-green mb-6 text-center">💰 ราคาบริการ</h4>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-700">ตรวจเช็คอาการ</span>
+                                <span class="font-bold text-dark-green">ฟรี!</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-700">ค่าเปิดฝาเคสเริ่มต้นที่</span>
+                                <span class="font-bold text-dark-green">50 บาท</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-700">ติดตั้งโปรแกรมเริ่มต้นที่</span>
+                                <span class="font-bold text-dark-green">150 บาท</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-700">ลงระบบใหม่พร้อมโปรแกรมพื้นฐาน เริ่มต้นที่</span>
+                                <span class="font-bold text-dark-green">300 บาท</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3">
+                                <span class="text-gray-700">ซ่อมไม่ได้</span>
+                                <span class="font-bold text-medium-green">ไม่คิดเงิน!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h4 class="text-2xl font-bold text-dark-green mb-6 text-center">🛡️ การรับประกัน</h4>
+                        <div class="space-y-4">
+                            <div class="bg-soft-green p-4 rounded-lg">
+                                <h5 class="font-bold text-dark-green mb-2">ประกันซ่อม 3 เดือน</h5>
+                                <p class="text-gray-700 text-sm leading-relaxed">คิดค่าบริการเฉพาะการเปลี่ยนอะไหล่เท่านั้น ค่าติดตั้งโปรแกรม หรือลงระบบใหม่ คิดราคาพิเศษ (การรับประกัน case by case ตามแต่กรณี)</p>
+                            </div>
+                            
+                            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                <h5 class="font-bold text-red-600 mb-3">เงื่อนไขการรับประกัน</h5>
+                                <p class="font-semibold text-red-600 mb-2">ไม่รับประกัน ทุกกรณี ต่อไปนี้</p>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>- ลูกค้าทำเครื่องบุบ, ยุบ ตก, แตก เปลี่ยนสภาพ</li>
+                                    <li>- ลูกค้าใช้งานผิดประเภท</li>
+                                    <li>- ลูกค้าทำ เปียก, ชื้น</li>
+                                    <li>- ปัญหาจากระบบไฟฟ้าของลูกค้า, แบตเสื่อมสภาพ</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                <p class="text-sm text-gray-600">
+                                    <strong>หมายเหตุ:</strong> ระยะเวลาซ่อมขึ้นอยู่กับการจัดส่งอะไหล่ (ไม่มีเครื่องสำรองให้ใช้ระหว่างซ่อม)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <script>
+        // Smooth scrolling for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Add click animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // Show alert for demo purposes
+                if (this.textContent.includes('ตรวจเช็ค') || this.textContent.includes('โทร') || this.textContent.includes('แชท') || this.textContent.includes('ติดต่อ')) {
+                    alert('ขอบคุณที่สนใจบริการของเรา! นี่เป็นเว็บไซต์ตัวอย่าง กรุณาใส่ข้อมูลติดต่อจริงในการใช้งานจริง');
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96866260579f7322',t:'MTc1NDA2MjMwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
