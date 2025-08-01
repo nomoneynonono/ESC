@@ -1,1 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เมนูบริการ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+        .menu-item {
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .menu-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .content-frame {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl font-bold text-gray-800">บริการของเรา</h1>
+        </div>
+    </div>
 
+    <div class="container mx-auto px-6 py-6">
+        <div class="grid lg:grid-cols-4 gap-6">
+            <!-- Menu Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">เมนูบริการ</h2>
+                    
+                    <div class="space-y-3">
+                        <button onclick="loadService('print', this)" 
+                                class="menu-item w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">งานเอกสาร</div>
+                                    <div class="text-sm text-gray-500">Print & Design</div>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button onclick="loadService('chatbot', this)" 
+                                class="menu-item w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Chat Bot เล็กๆ</div>
+                                    <div class="text-sm text-gray-500">AI Assistant</div>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button onclick="loadService('computer', this)" 
+                                class="menu-item w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">แก้ปัญหาคอมพิวเตอร์</div>
+                                    <div class="text-sm text-gray-500">Tech Support</div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <!-- Default Welcome Content -->
+                    <div id="welcome-content" class="content-frame p-8 text-center">
+                        <div class="max-w-md mx-auto">
+                            <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">ยินดีต้อนรับ</h2>
+                            <p class="text-gray-600 mb-6">เลือกบริการที่คุณต้องการจากเมนูด้านซ้าย</p>
+                            <div class="text-sm text-gray-500">
+                                📋 งานเอกสาร Print & Design<br>
+                                🤖 Chat Bot เล็กๆ<br>
+                                💻 แก้ปัญหาคอมพิวเตอร์
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Content Frame -->
+                    <div id="service-frame" class="content-frame hidden">
+                        <iframe id="service-iframe" 
+                                src="" 
+                                class="w-full h-screen border-0"
+                                style="min-height: 600px;">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const services = {
+            'print': 'https://nomoneynonono.github.io/ESC/sits/print.html',
+            'chatbot': 'https://nomoneynonono.github.io/ESC/sits/chatbot.html',
+            'computer': 'https://nomoneynonono.github.io/ESC/sits/sits.html'
+        };
+
+        function loadService(serviceKey, buttonElement) {
+            // Remove active class from all menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            buttonElement.classList.add('active');
+            
+            // Hide welcome content
+            document.getElementById('welcome-content').classList.add('hidden');
+            
+            // Show service frame
+            const serviceFrame = document.getElementById('service-frame');
+            const iframe = document.getElementById('service-iframe');
+            
+            // Set iframe source
+            iframe.src = services[serviceKey];
+            
+            // Show the frame
+            serviceFrame.classList.remove('hidden');
+            
+            // Add loading indicator
+            iframe.onload = function() {
+                serviceFrame.style.opacity = '1';
+            };
+            
+            serviceFrame.style.opacity = '0.7';
+        }
+
+        // Optional: Load first service by default
+        // loadService('print', document.querySelector('.menu-item'));
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96865c0a55427322',t:'MTc1NDA2MjA0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
