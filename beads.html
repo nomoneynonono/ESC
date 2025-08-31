@@ -10,8 +10,8 @@
             aspect-ratio: 1;
             border: 1px solid #374151;
             transition: all 0.2s ease;
-            min-width: 18px;
-            min-height: 18px;
+            min-width: 38px;
+            min-height: 38px;
         }
         .pixel-cell:hover {
             transform: scale(1.1);
@@ -53,7 +53,7 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen p-4">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-2">🎨 Pixel Art Converter</h1>
@@ -77,31 +77,31 @@
 
         <!-- Results Container -->
         <div id="resultsContainer" class="hidden">
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Original Image -->
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">🖼️ รูปต้นฉบับ</h3>
-                    <div class="flex justify-center">
-                        <img id="originalImage" class="max-w-full h-auto rounded-lg shadow-md" style="max-height: 200px;">
+            <!-- Original Image - Small version at top -->
+            <div class="bg-white rounded-2xl shadow-lg p-4 mb-6">
+                <div class="flex items-center justify-center gap-4">
+                    <h3 class="text-lg font-bold text-gray-800">🖼️ รูปต้นฉบับ</h3>
+                    <img id="originalImage" class="h-20 w-20 object-cover rounded-lg shadow-md">
+                </div>
+            </div>
+
+            <!-- Pixel Art Grid - Full width center -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">🎯 Pixel Art (50x50 มิล = 19x19 เม็ด)</h3>
+                <div class="flex justify-center mb-6 overflow-auto relative">
+                    <div id="pixelGrid" class="grid gap-1 p-4 bg-gray-100 rounded-lg" style="width: 800px; height: 800px; max-width: 100%;">
+                        <!-- Pixel cells will be generated here -->
+                    </div>
+                    <!-- Color Picker Popup -->
+                    <div id="colorPicker" class="color-picker">
+                        <div class="text-xs font-bold text-gray-700 mb-2">เลือกสี:</div>
+                        <div id="colorOptions" class="flex flex-wrap" style="max-width: 120px;">
+                            <!-- Color options will be generated here -->
+                        </div>
                     </div>
                 </div>
-
-                <!-- Pixel Art Grid -->
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">🎯 Pixel Art (50x50 มิล = 19x19 เม็ด)</h3>
-                    <div class="flex justify-center mb-4 overflow-auto relative">
-                        <div id="pixelGrid" class="grid gap-1 p-4 bg-gray-100 rounded-lg" style="width: fit-content; height: fit-content; max-width: 100%;">
-                            <!-- Pixel cells will be generated here -->
-                        </div>
-                        <!-- Color Picker Popup -->
-                        <div id="colorPicker" class="color-picker">
-                            <div class="text-xs font-bold text-gray-700 mb-2">เลือกสี:</div>
-                            <div id="colorOptions" class="flex flex-wrap" style="max-width: 120px;">
-                                <!-- Color options will be generated here -->
-                            </div>
-                        </div>
-                    </div>
-                    <button id="downloadBtn" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 hidden">
+                <div class="flex justify-center">
+                    <button id="downloadBtn" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-8 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 hidden">
                         📥 ดาวน์โหลด Pattern
                     </button>
                 </div>
@@ -485,5 +485,5 @@
             link.click();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977b1f62d72da1ae',t:'MTc1NjYyODU3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977b5297f249731c',t:'MTc1NjYzMDY3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
