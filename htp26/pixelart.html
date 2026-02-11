@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heartopia Paint Tool (V.10 Pastel)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet"> <style>
+        :root { 
+            --primary: #FF8FAB;       /* ชมพูเข้ม */
+            --primary-hover: #FB6F92; /* ชมพูเข้มกว่า */
+            --sidebar-bg: #FFE5EC;    /* ชมพูอ่อนพาสเทล */
+            --content-bg: #FFF9FA;    /* ขาวอมชมพู */
+            --text: #594A4E;          /* น้ำตาลเทา (อ่านง่าย) */
+            --card-bg: #FFFFFF;
+            --shadow: 0 4px 15px rgba(255, 143, 171, 0.25);
+            --radius: 20px;
+        }
+        
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            margin: 0; padding: 0; 
+            background: var(--content-bg); 
+            color: var(--text);
+            overflow: hidden; 
+        }
+
+        /* --- LAYOUT --- */
+        #wrapper { display: flex; width: 100%; height: 100vh; overflow: hidden; transition: all 0.3s ease; }
+        
+        /* SIDEBAR */
+        #sidebar-wrapper {
+            min-width: 340px; max-width: 340px; /* ขยายความกว้างนิดนึง */
+            background-color: var(--sidebar-bg);
+            color: var(--text);
+            display: flex; flex-direction: column;
+            border-right: 3px solid white;
+            z-index: 1000;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* CONTENT */
+        #page-content-wrapper {
+            width: 100%;
+            overflow-y: auto;
+            background: var(--content-bg);
+            display: flex; flex-direction: column;
+        }
+
+        /* --- COMPONENTS --- */
+        .sidebar-heading {
+            padding: 20px; 
+            font-family: 'Fredoka', sans-serif; /* Cute Font */
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            text-align: center;
+            color: var(--primary-hover);
+            background: rgba(255,255,255,0.5); 
+            border-bottom: 2px solid white;
+            letter-spacing: 1px;
+        }
+
+        /* Palette Container */
+        .palette-container { 
+            padding: 15px; 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            display: flex;
+            flex-direction: column;
+            /* Scrollbar styling for container */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+        
+        /* --- 1. NEW TAB DESIGN (FIXED & SCROLLABLE) --- */
+        .palette-tabs { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 10px; 
+            padding-bottom: 15px; 
+            margin-bottom: 15px; 
+            border-bottom: 2px dashed rgba(255, 143, 171, 0.3);
+            flex-shrink: 0; /* ห้ามหดตัวเด็ดขาด! */
+            min-height: 65px; /* ล็อคความสูง */
+            align-items: center;
+        }
+        
+        /* Cute Scrollbar */
+        .palette-tabs::-webkit-scrollbar { height: 12px; }
+        .palette-tabs::-webkit-scrollbar-track { background: rgba(255,255,255,0.5); border-radius: 10px; }
+        .palette-tabs::-webkit-scrollbar-thumb { 
+            background: var(--primary); 
+            border-radius: 10px; 
+            border: 3px solid rgba(255,255,255,0.5); 
+            background-clip: padding-box;
+        }
+        
+        .tab-swatch {
+            min-width: 45px; height: 45px; /* ใหญ่ขึ้น */
+            border-radius: 12px; 
+            cursor: pointer;
+            border: 3px solid white; 
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy effect */
+            flex-shrink: 0; /* ห้ามบีบ */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .tab-swatch:hover { transform: translateY(-3px); }
+        .tab-swatch.active { 
+            border-color: var(--primary-hover); 
+            transform: scale(1.15); 
+            box-shadow: 0 5px 15px rgba(251, 111, 146, 0.4); 
+            z-index: 10;
+        }
+
+        /* --- 2. SUB-COLORS (SMALLER) --- */
+        .palette-grid { 
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr); /* เพิ่มเป็น 5 แถวเพื่อให้เล็ก */
+            gap: 6px; 
+            padding-bottom: 20px; 
+        }
+        
+        .color-item {
+            aspect-ratio: 1; 
+            border-radius: 8px; 
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; /* ตัวเล็กหน่อย */
+            font-weight: bold; 
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            color: transparent; 
+            position: relative;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1); /* 3D effect */
+            clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
+            transition: transform 0.1s;
+        }
+        .color-item:hover { transform: scale(1.1); color: white; z-index: 10; }
+        .color-item:active { transform: scale(0.9); }
+
+        .selected-info { 
+            background: white; 
+            padding: 12px; 
+            margin-top: 10px; 
+            border-radius: 15px; 
+            text-align: center; 
+            color: var(--primary-hover);
+            font-weight: bold;
+            box-shadow: var(--shadow);
+            border: 2px solid #fff;
+        }
+
+        /* CREDIT FOOTER */
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 20px 10px;
+            background: rgba(255,255,255,0.4);
+            text-align: center;
+            font-size: 13px;
+            border-top: 2px dashed rgba(255,255,255,0.8);
+            border-radius: 20px 20px 0 0;
+        }
+        .credit-text { margin-bottom: 10px; line-height: 1.5; color: var(--text); }
+        .credit-title { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 18px; color: var(--primary-hover); display: block; margin-bottom: 5px;}
+        .donate-img { width: 100px; cursor: pointer; transition: 0.2s; border-radius: 10px; box-shadow: var(--shadow); }
+        .donate-img:hover { transform: scale(1.05) rotate(-2deg); }
+
+        /* Top Bar */
+        .top-bar {
+            padding: 15px 25px; background: white; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+            z-index: 100;
+        }
+        .btn-toggle { 
+            background: var(--primary); color: white; border: none; 
+            padding: 10px 20px; border-radius: 50px; cursor: pointer; 
+            font-weight: bold; font-family: 'Sarabun', sans-serif;
+            transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 143, 171, 0.3);
+        }
+        .btn-toggle:hover { background: var(--primary-hover); transform: translateY(-2px); }
+
+        /* Config Bar */
+        .config-bar {
+            display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap;
+            background: #fff; padding: 20px; margin: 20px; border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 2px solid #fff;
+        }
+        
+        .config-group {
+            display: flex; flex-direction: column; gap: 8px; align-items: center;
+            border-right: 2px dashed #f0f0f0; padding-right: 20px;
+        }
+        .config-group:last-child { border-right: none; }
+        .config-label { font-size: 12px; color: #aaa; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        select, input[type="number"] {
+            padding: 8px 12px; border: 2px solid #eee; border-radius: 10px; 
+            font-size: 14px; text-align: center; color: var(--text);
+            background: #FAFAFA; outline: none; transition: 0.2s;
+        }
+        select:focus, input[type="number"]:focus { border-color: var(--primary); background: #FFF; }
+
+        /* Radio Switch Cute */
+        .radio-switch { display: flex; background: #FFF0F3; border-radius: 50px; padding: 4px; border: 1px solid #FFE5EC; }
+        .radio-switch label {
+            padding: 8px 16px; cursor: pointer; border-radius: 50px; font-size: 13px; transition: 0.2s;
+        }
+        .radio-switch input { display: none; }
+        .radio-switch input:checked + span { 
+            background: var(--primary); color: white; 
+            box-shadow: 0 2px 10px rgba(255, 143, 171, 0.4); 
+            font-weight: bold;
+        }
+        .radio-switch span { display: block; padding: 5px 10px; border-radius: 50px; }
+
+        /* Result Area */
+        .upload-area { text-align: center; padding: 10px 20px; }
+        .btn-upload {
+            background: linear-gradient(45deg, #FF9EBC, #FF8FAB); 
+            color: white; border: none; padding: 15px 40px; border-radius: 50px;
+            font-size: 18px; font-weight: bold; cursor: pointer; 
+            box-shadow: 0 5px 15px rgba(255, 143, 171, 0.4); 
+            transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-upload:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(255, 143, 171, 0.6); }
+        
+        .result-container { flex-grow: 1; padding: 20px; overflow: auto; display: flex; flex-direction: column; align-items: center; }
+        table.pixel-grid { border-collapse: separate; border-spacing: 1px; margin: 0 auto; background: white; padding: 10px; border-radius: 10px; box-shadow: var(--shadow); }
+        table.pixel-grid td { 
+            width: 20px; height: 20px; font-size: 10px; text-align: center; padding: 0; 
+            border-radius: 2px; /* Soft pixels */
+        }
+        .transparent-cell { 
+            background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%); 
+            background-size: 10px 10px; background-color: #fff; 
+        }
+        .hidden { display: none !important; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            #sidebar-wrapper { margin-left: -340px; position: absolute; height: 100%; transition: margin 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+            #wrapper.toggled #sidebar-wrapper { margin-left: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <div class="sidebar-heading">🌸 Heartopia</div>
+        <div class="palette-container">
+            <div id="paletteTabs" class="palette-tabs"></div>
+            <div id="paletteGrid" class="palette-grid"></div>
+            <div id="colorInfo" class="selected-info">✨ เลือกสีเพื่อดู ID</div>
+            <div style="text-align: center; margin-top: 15px;">
+                <button onclick="openModal()" style="background:#FFC2D1; border:none; color:#594A4E; padding:8px 20px; border-radius:20px; cursor:pointer; font-size:12px; font-weight:bold; transition:0.2s;">
+                    🔍 เปิดรูป Map ใหญ่
+                </button>
+            </div>
+
+<p>เหมาะสำหรับวาดรูปทั่วไป สำหรับคนที่วาดไม่เก่งนะครับ โดยการแปลงไฟล์รูปต้นแบบมาเป็น Pixel Art คุมโทนสีตามสีในเกมครับ ใช้วิธีลงสีตามช่อง คล้ายๆแอพระบายสีตามตัวเลขทั่วไป</p>
+<p><b>Tip!</b> ถ้าต้องการให้รูปออกมาสวยบางครั้งถ้าไฟล์รูปภาพใหญ่ไป อาจจะต้อง Crop หรือลดหรือทำขนาดภาพให้ใกล้เคียงหรือพอดีกับ Pixel ในเกม ตรวจสอบขนาด Pixel ที่แถบตัวเลือกขนาดด้านบนได้เลย</p>
+            
+            <div class="sidebar-footer">
+                <span class="credit-title">MEESC</span>
+                <div class="credit-text">
+                    ชื่นชอบและอยากสนับสนุนผลงานต่างๆของผม<br>
+                    เลี้ยงกาแฟผมได้นะครับ
+                </div>
+                <img src="buymecoffee.png" alt="Buy Me A Coffee" class="donate-img" onerror="this.style.display='none'"><br>  ขอบคุณครับ🙏
+            </div>
+        </div>
+    </div>
+
+    <div id="page-content-wrapper">
+        <div class="top-bar">
+            <button class="btn-toggle" onclick="document.getElementById('wrapper').classList.toggle('toggled')">☰ ถาดสี</button>
+            <div style="font-weight:bold; color:var(--text); font-family:'Fredoka',sans-serif; font-size:18px;">🎨 Paint Tool (V.10)</div>
+            <button onclick="downloadHighRes()" class="btn-toggle" style="background:#A0E7E5; color:#00695C;">💾 บันทึกรูป</button>
+        </div>
+
+        <div class="config-bar">
+            <div class="config-group">
+                <span class="config-label">สัดส่วน</span>
+                <select id="ratioSelect" onchange="applyPreset()">
+                    <option value="16:9">16:9 (Wide)</option>
+                    <option value="4:3">4:3 (Normal)</option>
+                    <option value="1:1">1:1 (Square)</option>
+                </select>
+            </div>
+
+            <div class="config-group">
+                <span class="config-label">ขนาด</span>
+                <select id="sizeSelect" onchange="applyPreset()">
+                    <option value="4x4">4x4 (ใหญ่)</option>
+                    <option value="3x3">3x3 (กลาง)</option>
+                    <option value="2x2">2x2 (เล็ก)</option>
+                    <option value="1x1">1x1 (จิ๋ว)</option>
+                </select>
+            </div>
+
+            <div class="config-group">
+                <span class="config-label">แนว</span>
+                <div class="radio-switch">
+                    <label>
+                        <input type="radio" name="orientation" value="h" checked onchange="applyPreset()">
+                        <span>แนวนอน</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="orientation" value="v" onchange="applyPreset()">
+                        <span>แนวตั้ง</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="config-group">
+                <span class="config-label">Pixel</span>
+                <div style="display:flex; gap:5px; align-items:center;">
+                    W: <input type="number" id="inputW" style="width:50px;" readonly>
+                    H: <input type="number" id="inputH" style="width:50px;" readonly>
+                </div>
+            </div>
+
+            <div class="config-group" style="border:none;">
+                <span class="config-label">การวางภาพ</span>
+                <select id="scaleModeSelect" onchange="reProcess()">
+                    <option value="fit">Auto Fit (แนะนำ)</option>
+                    <option value="stretch">Stretch (ยืด)</option>
+                    <option value="original">1:1 (จริง)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="upload-area">
+            <input type="file" id="targetInput" accept="image/*" onchange="processImage(this)" style="display:none;">
+            <button class="btn-upload" onclick="document.getElementById('targetInput').click()">
+                <span>🖼️</span> เลือกรูปภาพที่จะวาด
+            </button>
+            <div style="margin-top:20px; font-size:14px; color:#888;">
+                🔍 Zoom: <input type="range" min="10" max="50" value="20" id="zoomRange" oninput="updateZoom(this.value)" style="vertical-align:middle; accent-color:var(--primary);">
+            </div>
+        </div>
+
+        <div id="resultArea" class="result-container hidden">
+            <table id="numberGrid" class="pixel-grid"></table>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(5px);">
+    <span onclick="closeModal()" style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+    <img src="colorRange.png" style="display:block; margin:2% auto; max-width:90%; max-height:90vh; border:4px solid white; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,0.5);">
+</div>
+
+<script>
+    // --- 1. PRESETS DATA ---
+    const PRESETS = {
+        "16:9": { "4x4": [150, 84], "3x3": [100, 56], "2x2": [50, 28], "1x1": [30, 18] },
+        "4:3": { "4x4": [150, 114], "3x3": [100, 76], "2x2": [50, 38], "1x1": [30, 24] },
+        "1:1": { "4x4": [150, 150], "3x3": [100, 100], "2x2": [50, 50], "1x1": [30, 30] }
+    };
+
+    // --- 2. PALETTE LOGIC ---
+    const COLOR_GROUPS = [
+        [1, 2, 3, 4, 5, 0], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+        [26, 27, 28, 29, 30, 31, 32, 33, 34, 35], [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+        [46, 47, 48, 49, 50, 51, 52, 53, 54, 55], [56, 57, 58, 59, 60, 61, 62, 63, 64, 65],
+        [66, 67, 68, 69, 70, 71, 72, 73, 74, 75], [76, 77, 78, 79, 80, 81, 82, 83, 84, 85],
+        [86, 87, 88, 89, 90, 91, 92, 93, 94, 95], [96, 97, 98, 99, 100, 101, 102, 103, 104, 105],
+        [106, 107, 108, 109, 110, 111, 112, 113, 114, 115], [116, 117, 118, 119, 120, 121, 122, 123, 124, 125]
+    ];
+    const HEX_LIST = [
+        "#051616", "#414545", "#808282", "#bebfbf", "#feffff", "#cf354d", "#ee6f72", "#a6263d", "#f5aca6", "#c98483",
+        "#a35d5e", "#69313b", "#e7d5d5", "#c0acab", "#755e5e", "#e95e2b", "#f98358", "#ab4226", "#feba9f", "#d9937c",
+        "#af6c58", "#753b31", "#e9d5d0", "#c1aca6", "#755e59", "#f49e16", "#feae3b", "#b16f16", "#fece92", "#daa76d",
+        "#b3814b", "#795126", "#f5e4ce", "#cdbca9", "#806f5e", "#e9c60f", "#f9d838", "#b39416", "#f9e590", "#d3be6f",
+        "#ab954b", "#756326", "#eee7c7", "#c6bfa2", "#787259", "#a8bc16", "#b6c931", "#758616", "#d8df93", "#adb76d",
+        "#85914b", "#535e2b", "#e6e9c7", "#bcc2a3", "#6e745d", "#05a25d", "#41b97b", "#057447", "#9cdaad", "#76b28b",
+        "#4f8969", "#245640", "#c3e0cc", "#9db7a6", "#53695d", "#058781", "#05aba0", "#056966", "#7ecdc2", "#53a199",
+        "#2b7e78", "#054b4b", "#bee0da", "#98b7b2", "#4e6b66", "#05729c", "#0599ba", "#055878", "#79bbca", "#5193a5",
+        "#246d7f", "#05495b", "#c6dde2", "#9eb5ba", "#4f676f", "#055ea6", "#2b83c1", "#054782", "#83a8c9", "#5d80a1",
+        "#365b7f", "#193b56", "#c1cdd5", "#9ba6b0", "#4c5967", "#534da1", "#7577bd", "#3e387e", "#a2a0c7", "#787aa1",
+        "#55567e", "#333555", "#c9cad5", "#a2a3b0", "#565869", "#7e3d85", "#a167a9", "#602b6c", "#b89bb9", "#907395",
+        "#6c4d73", "#432e4b", "#cfc9d1", "#aba1ac", "#605665", "#ad356f", "#cf6b8f", "#862658", "#d9a1b4", "#b47a8c",
+        "#8b5367", "#60354b", "#e4d5da", "#bcadb1", "#725e66"
+    ];
+
+    function getHex(id) { return id === 0 ? '#ffffff' : HEX_LIST[id - 1]; }
+
+    function initPalette() {
+        const tabs = document.getElementById('paletteTabs');
+        COLOR_GROUPS.forEach(group => {
+            const tab = document.createElement('div');
+            tab.className = 'tab-swatch';
+            tab.style.backgroundColor = getHex(group[0]);
+            if(group[0] === 5 || group[0] === 1) tab.style.border = '2px solid #ccc';
+            tab.onclick = () => {
+                document.querySelectorAll('.tab-swatch').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderGrid(group);
+            };
+            tabs.appendChild(tab);
+        });
+        if(tabs.firstChild) tabs.firstChild.click();
+    }
+
+    function renderGrid(ids) {
+        const grid = document.getElementById('paletteGrid');
+        grid.innerHTML = '';
+        ids.forEach(id => {
+            const item = document.createElement('div');
+            item.className = 'color-item';
+            if(id===0) {
+                item.style.background = 'linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%) #fff';
+                item.style.backgroundSize = '8px 8px';
+                item.innerText = '0'; item.style.color = '#555';
+            } else {
+                item.style.backgroundColor = getHex(id);
+                item.innerText = id;
+            }
+            item.onclick = () => {
+                document.getElementById('colorInfo').innerHTML = 
+                    `สีที่เลือก: <span style="display:inline-block;width:15px;height:15px;background:${getHex(id)};border:1px solid #ccc;border-radius:50%;vertical-align:middle;margin:0 5px;"></span> <b>เบอร์ ${id}</b>`;
+            };
+            grid.appendChild(item);
+        });
+    }
+
+    // --- 3. APP LOGIC ---
+    let currentWidth = 150;
+    let currentHeight = 84;
+    let lastUploadedFile = null;
+    let globalGridData = [];
+
+    function applyPreset() {
+        const ratio = document.getElementById('ratioSelect').value;
+        const size = document.getElementById('sizeSelect').value;
+        const orient = document.querySelector('input[name="orientation"]:checked').value;
+        
+        let dims = PRESETS[ratio][size];
+        let w = dims[0];
+        let h = dims[1];
+
+        if (ratio !== "1:1" && orient === "v") {
+            let temp = w; w = h; h = temp;
+        }
+
+        document.getElementById('inputW').value = w;
+        document.getElementById('inputH').value = h;
+        
+        updateDimensions();
+    }
+
+    function updateDimensions() {
+        currentWidth = parseInt(document.getElementById('inputW').value) || 150;
+        currentHeight = parseInt(document.getElementById('inputH').value) || 84;
+        reProcess();
+    }
+
+    function reProcess() {
+        if (lastUploadedFile) runProcess(lastUploadedFile);
+    }
+
+    function processImage(input) {
+        if (!input.files || !input.files[0]) return;
+        lastUploadedFile = input.files[0];
+        runProcess(lastUploadedFile);
+    }
+
+    function runProcess(file) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = currentWidth;
+            canvas.height = currentHeight;
+            
+            ctx.clearRect(0,0,currentWidth,currentHeight);
+            ctx.imageSmoothingEnabled = false;
+
+            const mode = document.getElementById('scaleModeSelect').value;
+            if (mode === 'fit') {
+                const scale = Math.min(currentWidth / img.width, currentHeight / img.height);
+                const x = (currentWidth / 2) - (img.width / 2) * scale;
+                const y = (currentHeight / 2) - (img.height / 2) * scale;
+                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+            } else if (mode === 'stretch') {
+                ctx.drawImage(img, 0, 0, currentWidth, currentHeight);
+            } else {
+                ctx.drawImage(img, 0, 0); 
+            }
+            
+            generateGrid(ctx);
+        };
+        img.src = URL.createObjectURL(file);
+    }
+
+    function generateGrid(ctx) {
+        const imageData = ctx.getImageData(0, 0, currentWidth, currentHeight);
+        const data = imageData.data;
+        globalGridData = [];
+
+        const palette = HEX_LIST.map((hex, i) => {
+            const r = parseInt(hex.substr(1,2), 16);
+            const g = parseInt(hex.substr(3,2), 16);
+            const b = parseInt(hex.substr(5,2), 16);
+            return { id: i + 1, r, g, b, hex };
+        });
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i]; const g = data[i+1]; const b = data[i+2]; const a = data[i+3];
+            if (a < 50) { 
+                globalGridData.push({ id: 0, hex: 'transparent' });
+            } else {
+                let closest = null, minDist = Infinity;
+                for (let p of palette) {
+                    const dist = Math.sqrt(Math.pow(r-p.r,2) + Math.pow(g-p.g,2) + Math.pow(b-p.b,2));
+                    if (dist < minDist) { minDist = dist; closest = p; }
+                }
+                globalGridData.push(closest);
+            }
+        }
+        renderTable();
+        document.getElementById('resultArea').classList.remove('hidden');
+    }
+
+    function renderTable() {
+        const table = document.getElementById('numberGrid');
+        table.innerHTML = '';
+        const size = document.getElementById('zoomRange').value;
+        
+        for (let y = 0; y < currentHeight; y++) {
+            const tr = document.createElement('tr');
+            for (let x = 0; x < currentWidth; x++) {
+                const idx = (y * currentWidth) + x;
+                const cell = globalGridData[idx];
+                const td = document.createElement('td');
+                td.style.width = size + 'px'; td.style.height = size + 'px'; td.style.fontSize = (size * 0.5) + 'px';
+                if (cell.id === 0) {
+                    td.className = 'transparent-cell';
+                } else {
+                    td.innerText = cell.id; td.style.backgroundColor = cell.hex;
+                    const brightness = (parseInt(cell.hex.substr(1,2),16)*299 + parseInt(cell.hex.substr(3,2),16)*587 + parseInt(cell.hex.substr(5,2),16)*114)/1000;
+                    td.style.color = brightness > 125 ? '#000' : '#fff';
+                }
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+    }
+
+    function updateZoom(val) {
+        document.querySelectorAll('#numberGrid td').forEach(td => {
+            td.style.width = val + 'px'; td.style.height = val + 'px'; td.style.fontSize = (val * 0.5) + 'px';
+        });
+    }
+
+    function downloadHighRes() {
+        if (!globalGridData.length) return;
+        const scale = 20; 
+        const canvas = document.createElement('canvas');
+        canvas.width = currentWidth * scale; canvas.height = currentHeight * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0, canvas.width, canvas.height);
+        
+        globalGridData.forEach((cell, i) => {
+            const x = (i % currentWidth) * scale;
+            const y = Math.floor(i / currentWidth) * scale;
+            if (cell.id !== 0) {
+                ctx.fillStyle = cell.hex; ctx.fillRect(x, y, scale, scale);
+                const brightness = (parseInt(cell.hex.substr(1,2),16)*299 + parseInt(cell.hex.substr(3,2),16)*587 + parseInt(cell.hex.substr(5,2),16)*114)/1000;
+                ctx.fillStyle = brightness > 125 ? '#000' : '#fff';
+                ctx.font = 'bold '+(scale*0.5)+'px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                ctx.fillText(cell.id, x+scale/2, y+scale/2);
+            } else {
+                ctx.fillStyle = "#eee"; ctx.fillRect(x, y, scale/2, scale/2); ctx.fillRect(x+scale/2, y+scale/2, scale/2, scale/2);
+            }
+        });
+        const link = document.createElement('a');
+        link.download = 'heartopia-result.png'; link.href = canvas.toDataURL('image/png'); link.click();
+    }
+    
+    function openModal() { document.getElementById("myModal").style.display = "block"; }
+    function closeModal() { document.getElementById("myModal").style.display = "none"; }
+
+    // Init
+    initPalette();
+    applyPreset(); 
+</script>
+
+</body>
+</html>
