@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Card Font Tester Ultimate (Thai Edition)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Arizonia&family=Bad+Script&family=Bilbo+Swash+Caps&family=Bonbon&family=Calligraffitti&family=Caveat&family=Cedarville+Cursive&family=Clicker+Script&family=Cookie&family=Courgette&family=Damion&family=Dancing+Script&family=Dawne&family=Euphoria+Script&family=Felipa&family=Give+You+Glory&family=Gloria+Hallelujah&family=Gochi+Hand&family=Grand+Hotel&family=Great+Vibes&family=Handlee&family=Herr+Von+Muellerhoff&family=Homemade+Apple&family=Indie+Flower&family=Italianno&family=Jim+Nightshade&family=Just+Me+Again+Down+Here&family=Kaushan+Script&family=Kristi&family=La+Belle+Aurore&family=Leckerli+One&family=Lobster+Two&family=Lovers+Quarrel&family=Marck+Script&family=Meddon&family=Meie+Script&family=Miss+Fajardose&family=Monsieur+La+Doulaise&family=Mr+Dafoe&family=Mr+De+Haviland&family=Mrs+Saint+Delafield&family=Nanum+Pen+Script&family=Neucha&family=Norican&family=Nothing+You+Could+Do&family=Over+the+Rainbow&family=Pacifico&family=Parisienne&family=Patrick+Hand&family=Petit+Formal+Script&family=Pinyon+Script&family=Playball&family=Quintessential&family=Qwigley&family=Reenie+Beanie&family=Rochester&family=Rouge+Script&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Stalemate&family=Tangerine&family=The+Girl+Next+Door&family=Waiting+for+the+Sunrise&family=WindSong&family=Yellowtail&family=Zeyada&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Athiti&family=Bai+Jamjuree&family=Chakra+Petch&family=Charm&family=Charmonman&family=Chonburi&family=Fahkwang&family=Itim&family=K2D&family=Kanit&family=Kodchasan&family=KoHo&family=Krub&family=Maitree&family=Mali&family=Mitr&family=Niramit&family=Noto+Sans+Thai&family=Noto+Serif+Thai&family=Pattaya&family=Pridi&family=Prompt&family=Sarabun&family=Sriracha&family=Taviraj&family=Thasadith&family=Trirong&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --bg-color: #f4f6f8;
+            --card-width: 8.8cm;
+            --card-height: 5.5cm;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        /* ----- Controls Panel (Left/Bottom) ----- */
+        .controls-panel {
+            width: 340px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .control-group h3 {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 8px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 1rem; 
+            margin-bottom: 10px;
+        }
+
+        /* ----- Preview Panel (Right/Top) ----- */
+        .preview-panel {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: radial-gradient(#dfe6e9 1px, transparent 1px);
+            background-size: 20px 20px; 
+            position: relative;
+        }
+
+        .card-wrapper {
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            background: white;
+            border-radius: 2px;
+        }
+
+        .card-container {
+            width: var(--card-width);
+            height: var(--card-height);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            outline: 1px dashed #e0e0e0;
+            outline-offset: -5px; 
+        }
+
+        .line {
+            width: 100%;
+            white-space: nowrap;
+            cursor: text;
+            transition: color 0.2s;
+            line-height: 1.3;
+            padding: 2px 0;
+        }
+        .line:focus {
+            background-color: rgba(230, 126, 34, 0.1);
+            outline: none;
+        }
+
+        .hint-text {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            background: rgba(255,255,255,0.8);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        /* ----- Mobile Responsive Logic ----- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .preview-panel { flex-grow: 0; min-height: 45vh; border-bottom: 1px solid #ddd; }
+            .controls-panel { width: 100%; box-sizing: border-box; height: 55vh; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
+            
+            .card-wrapper {
+                transform-origin: center center;
+                max-width: 90vw; 
+                aspect-ratio: 8.8 / 5.5;
+                width: auto;
+                height: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+             @media (max-width: 380px) { .card-wrapper { zoom: 0.85; } }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-panel">
+        <div class="card-wrapper">
+            <div class="card-container" id="cardArea">
+                <div id="line1" class="line" contenteditable="true" style="font-family: 'Great Vibes', cursive; font-size: 20pt;">Almond Donut</div>
+                <div id="line2" class="line" contenteditable="true" style="font-family: 'Charmonman', cursive; font-size: 12pt;">โดนัทอัลมอนด์</div>
+                <div id="line3" class="line" contenteditable="true" style="font-family: 'Sarabun', sans-serif; font-size: 10pt;">75฿</div>
+            </div>
+        </div>
+        <div class="hint-text">👆 แตะที่ข้อความเพื่อแก้ไข</div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="control-group">
+            <h3>1. บรรทัดอังกฤษ</h3>
+            <label>เลือกฟอนต์:</label>
+            <select id="font1" onchange="updateCard('line1', 'font1', 'size1')">
+                <optgroup label="⭐️ Top Picks (ยอดนิยม)">
+                    <option value="'Great Vibes', cursive">Great Vibes (หรูหรามาตรฐาน)</option>
+                    <option value="'Pinyon Script', cursive">Pinyon Script (ผู้ดีอังกฤษ)</option>
+                    <option value="'Alex Brush', cursive">Alex Brush (พู่กัน)</option>
+                    <option value="'Allura', cursive">Allura (เรียบง่าย)</option>
+                </optgroup>
+                <optgroup label="✒️ Signature Style (ลายเซ็น)">
+                    <option value="'Herr Von Muellerhoff', cursive">Herr Von Muellerhoff</option>
+                    <option value="'Mrs Saint Delafield', cursive">Mrs Saint Delafield</option>
+                    <option value="'Monsieur La Doulaise', cursive">Monsieur La Doulaise</option>
+                    <option value="'Meie Script', cursive">Meie Script</option>
+                    <option value="'Mr De Haviland', cursive">Mr De Haviland</option>
+                </optgroup>
+                <optgroup label="💎 Elegant & Classic (คลาสสิค)">
+                    <option value="'Parisienne', cursive">Parisienne</option>
+                    <option value="'Petit Formal Script', cursive">Petit Formal Script</option>
+                    <option value="'Rouge Script', cursive">Rouge Script</option>
+                    <option value="'Tangerine', cursive">Tangerine</option>
+                    <option value="'Italianno', cursive">Italianno</option>
+                </optgroup>
+                <optgroup label="🍃 Modern Script (อ่านง่าย)">
+                    <option value="'Dancing Script', cursive">Dancing Script</option>
+                    <option value="'Pacifico', cursive">Pacifico</option>
+                    <option value="'Satisfy', cursive">Satisfy</option>
+                    <option value="'Cookie', cursive">Cookie</option>
+                    <option value="'Courgette', cursive">Courgette</option>
+                    <option value="'Sacramento', cursive">Sacramento</option>
+                </optgroup>
+            </select>
+            <label>ขนาด: <span id="val_size1">20</span>pt</label>
+            <input type="range" id="size1" min="10" max="50" value="20" oninput="updateCard('line1', 'font1', 'size1')">
+        </div>
+
+        <div class="control-group">
+            <h3>2. บรรทัดไทย</h3>
+            <label>เลือกฟอนต์:</label>
+            <select id="font2" onchange="updateCard('line2', 'font2', 'size2')">
+                 <optgroup label="💎 ไทยหรูหรา/ทางการ (Luxury & Formal)">
+                    <option value="'Charmonman', cursive">ชามอนแมน (Charmonman) - หรูหราสุดฮิต</option>
+                    <option value="'Noto Serif Thai', serif">โนโต เซริฟ (Noto Serif) - มีหัวทางการ</option>
+                    <option value="'Maitree', serif">ไมตรี (Maitree) - เรียบหรูดูดี</option>
+                    <option value="'Pridi', serif">ปรีดี (Pridi) - ทางการสมัยใหม่</option>
+                    <option value="'Taviraj', serif">ทวิราช (Taviraj) - วินเทจร่วมสมัย</option>
+                    <option value="'Trirong', serif">ไตรรงค์ (Trirong) - คลาสสิก</option>
+                    <option value="'Sarabun', sans-serif">สารบัญ (Sarabun) - มาตรฐานราชการ</option>
+                </optgroup>
+                
+                <optgroup label="🏢 ไทยโมเดิร์น (Modern & Clean)">
+                    <option value="'Kanit', sans-serif">คณิต (Kanit) - ทันสมัยยอดนิยม</option>
+                    <option value="'Prompt', sans-serif">พร้อม (Prompt) - เรขาคณิตสวย</option>
+                    <option value="'Chonburi', cursive">ชลบุรี (Chonburi) - ตัวหนาโค้งมน</option>
+                    <option value="'Fahkwang', sans-serif">ฟ้ากว้าง (Fahkwang) - โปร่งอ่านง่าย</option>
+                    <option value="'K2D', sans-serif">K2D - ล้ำยุค</option>
+                    <option value="'Niramit', sans-serif">นิรมิต (Niramit) - กึ่งทางการ</option>
+                </optgroup>
+
+                <optgroup label="🧸 ไทยน่ารัก/ลายมือ (Cute & Creative)">
+                    <option value="'Mali', cursive">มะลิ (Mali) - ลายมือน่ารักมาก</option>
+                    <option value="'Itim', cursive">ไอติม (Itim) - ตัวกลมๆ</option>
+                    <option value="'Sriracha', cursive">ศรีราชา (Sriracha) - ลายมือปากกา</option>
+                    <option value="'Pattaya', sans-serif">พัทยา (Pattaya) - ตัวหนาน่ารัก</option>
+                    <option value="'Charm', cursive">ชาม (Charm) - ไทยวิจิตร</option>
+                    <option value="'Krub', sans-serif">ครับ (Krub) - มนๆ สุภาพ</option>
+                    <option value="'Kodchasan', sans-serif">กฎชสาร (Kodchasan) - วัยรุ่น</option>
+                    <option value="'Athiti', sans-serif">อธิติ (Athiti) - ตัวบางน่ารัก</option>
+                    <option value="'KoHo', sans-serif">โก๋ (KoHo) - สนุกสนาน</option>
+                </optgroup>
+            </select>
+            <label>ขนาด: <span id="val_size2">12</span>pt</label>
+            <input type="range" id="size2" min="8" max="40" value="12" oninput="updateCard('line2', 'font2', 'size2')">
+        </div>
+
+        <div class="control-group">
+            <h3>3. บรรทัดล่าง</h3>
+            <label>เลือกฟอนต์:</label>
+            <select id="font3" onchange="updateCard('line3', 'font3', 'size3')">
+                <optgroup label="อ่านง่าย/ทางการ">
+                    <option value="'Sarabun', sans-serif">สารบัญ (Sarabun)</option>
+                    <option value="'Kanit', sans-serif">คณิต (Kanit)</option>
+                    <option value="'Prompt', sans-serif">พร้อม (Prompt)</option>
+                    <option value="'Noto Sans Thai', sans-serif">โนโต ซานส์ (Noto Sans)</option>
+                    <option value="'Bai Jamjuree', sans-serif">บาย เจียมจุรี</option>
+                </optgroup>
+                <optgroup label="น่ารัก/ลายมือ (อ่านเลขง่าย)">
+                    <option value="'Mali', cursive">มะลิ (Mali)</option>
+                    <option value="'Itim', cursive">ไอติม (Itim)</option>
+                    <option value="'Kodchasan', sans-serif">กฎชสาร (Kodchasan)</option>
+                    <option value="'Chakra Petch', sans-serif">จักรเพชร (เหลี่ยม)</option>
+                </optgroup>
+            </select>
+            <label>ขนาด: <span id="val_size3">10</span>pt</label>
+            <input type="range" id="size3" min="6" max="30" value="10" oninput="updateCard('line3', 'font3', 'size3')">
+        </div>
+    </div>
+
+    <script>
+        function updateCard(lineId, fontId, sizeId) {
+            const font = document.getElementById(fontId).value;
+            const size = document.getElementById(sizeId).value;
+            const element = document.getElementById(lineId);
+            
+            element.style.fontFamily = font;
+            element.style.fontSize = size + 'pt';
+            
+            // Update display value
+            document.getElementById('val_' + sizeId).innerText = size;
+        }
+
+        window.onload = function() {
+            // Initial call if needed
+        }
+    </script>
+</body>
+</html>
