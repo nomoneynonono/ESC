@@ -1,10 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Cake Go O`s Card System</title>
-    </head>
-    <body>
-        <iframe width="100%" height="100%" src="https://script.google.com/macros/s/AKfycbxourOp1bVAZagWbG3vhvLo36v5U7Fb1gYkIJ-0cQQzMhasmKMYIO11xnh07xrZqZD7/exec" frameBorder="0"></iframe> 
-        <br>©SITS 2026
-    </body>
+<head>
+    <title>Cake Go O`s Card System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* ล้างค่าขอบกระดาษให้เต็มจอ */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* บังคับให้ความสูงเต็มจอ */
+            overflow: hidden; /* ป้องกัน Scrollbar ซ้อน */
+            font-family: sans-serif;
+        }
+
+        /* จัดหน้าแบบ Flexbox (แนวตั้ง) */
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ตั้งค่า iframe ให้ยืดขยายเต็มพื้นที่ที่เหลือ */
+        iframe {
+            flex-grow: 1; /* คำสั่งสำคัญ: ยืดให้เต็มพื้นที่ */
+            width: 100%;
+            border: none; /* เอาขอบ iframe ออกให้เนียน */
+            display: block;
+        }
+
+        /* ส่วน footer ด้านล่าง */
+        .copyright {
+            text-align: center;
+            padding: 5px;
+            background-color: #f1f1f1;
+            font-size: 12px;
+            color: #666;
+            flex-shrink: 0; /* ห้ามหด */
+        }
+    </style>
+</head>
+<body>
+
+    <iframe src="https://script.google.com/macros/s/AKfycbxourOp1bVAZagWbG3vhvLo36v5U7Fb1gYkIJ-0cQQzMhasmKMYIO11xnh07xrZqZD7/exec"></iframe> 
+
+    <div class="copyright">©SITS 2026</div>
+
+</body>
 </html>
